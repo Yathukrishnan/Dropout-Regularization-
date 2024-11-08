@@ -1,0 +1,27 @@
+dropmodel = Sequential([
+    Flatten(input_shape=(32, 32, 3)),
+    Dense(256, activation='relu'),
+    layers.Dropout(0.2),
+    Dense(128, activation='relu'),
+    layers.Dropout(0.2),
+    Dense(64, activation='relu'),
+    layers.Dropout(0.2),
+    Dense(10, activation='softmax') # Output Layer
+])
+
+# Compile the model
+dropmodel.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+st=time.time()
+
+# Train the model
+history = dropmodel.fit(x_train, y_train, epochs=5, batch_size=64, validation_data=(x_test, y_test))
+et=time.time()
+
+# Evaluate the model
+droptest_loss, droptest_acc = dropmodel.evaluate(x_test, y_test)
+
+duration=et-st
+
+print(f"Duration:{duration:.4f}")
+print(f"Test accuracy: {droptest_acc:.4f}")
+print(f"Test loss: {droptest_loss:.4f}")
